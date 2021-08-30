@@ -1,14 +1,15 @@
 package com.cakefordogs.cakefordogs.product;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
 
 @Getter
+@Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table
 public class Product {
@@ -25,11 +26,11 @@ public class Product {
    @Column(nullable = false)
     private BigDecimal price;
 
-   @Builder
+    @Builder
     public Product(String name, String description, BigDecimal price) {
-       this.name = name;
-       this.description = description;
-       this.price = price;
-   }
+        this.name = name;
+        this.description = description;
+        this.price = price;
+    }
 
 }
