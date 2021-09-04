@@ -9,6 +9,8 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import java.math.BigDecimal;
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.*;
+
 @DataJpaTest
 class ProductRepositoryTest {
 
@@ -30,7 +32,7 @@ class ProductRepositoryTest {
         Optional<Product> foundProduct = productRepository.findProductByName(newProduct.getName());
 
         // then
-        Assertions.assertThat(foundProduct).isPresent();
+        assertThat(foundProduct).isPresent();
 
     }
     @Test
@@ -42,7 +44,7 @@ class ProductRepositoryTest {
         Optional<Product> foundProduct = productRepository.findProductByName(newProduct.getName());
 
         // then
-        Assertions.assertThat(foundProduct).isNotPresent();
+        assertThat(foundProduct).isNotPresent();
 
     }
 }

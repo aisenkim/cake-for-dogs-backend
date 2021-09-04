@@ -1,4 +1,4 @@
-package com.cakefordogs.cakefordogs.product;
+package com.cakefordogs.cakefordogs.discount;
 
 import lombok.*;
 
@@ -11,7 +11,8 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @Entity
 @Table
-public class Product {
+public class Discount {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -19,26 +20,20 @@ public class Product {
     @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false)
+    @Column
     private String description;
 
     @Column(nullable = false)
-    private BigDecimal price;
+    private BigDecimal discountPercent;
+
 
     // TODO - Add timestamps
-//   @CreatedDate
-//   @Column(name = "createdAt", nullable = false, updatable = false)
-//   private Date createdAt;
-//
-//   @LastModifiedDate
-//   @Column(name = "modifiedAt")
-//   private LocalDateTime modifiedAt;
 
     @Builder
-    public Product(String name, String description, BigDecimal price) {
+    public Discount(String name, String description, BigDecimal discountPercent) {
         this.name = name;
         this.description = description;
-        this.price = price;
+        this.discountPercent = discountPercent;
     }
 
 }

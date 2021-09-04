@@ -51,7 +51,7 @@ class ProductControllerTest {
     }
 
     @AfterEach
-    public void tearDown() throws Exception {
+    public void tearDown() {
         productRepository.deleteAll();
     }
 
