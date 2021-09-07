@@ -1,6 +1,7 @@
 package com.cakefordogs.cakefordogs.user.domain;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -14,9 +15,9 @@ import static javax.persistence.GenerationType.*;
  * @author Aisen Kim
  *
  * Different Roles
- * 1. SUPER_ADMIN
- * 2. ADMIN
- * 3. USER
+ * 1. ROLE_SUPERADMIN
+ * 2. ROLE_ADMIN
+ * 3. ROLE_USER
  */
 
 @Entity
