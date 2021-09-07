@@ -10,6 +10,15 @@ import javax.persistence.Id;
 
 import static javax.persistence.GenerationType.*;
 
+/**
+ * @author Aisen Kim
+ *
+ * Different Roles
+ * 1. SUPER_ADMIN
+ * 2. ADMIN
+ * 3. USER
+ */
+
 @Entity
 @Data
 @NoArgsConstructor
@@ -21,3 +30,4 @@ public class Role {
 
     private String name;
 }
+
