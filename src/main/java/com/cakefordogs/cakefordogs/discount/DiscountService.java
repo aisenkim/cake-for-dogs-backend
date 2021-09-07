@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -37,6 +38,8 @@ public class DiscountService {
         Discount discount = discountRepository.findById(id)
                 .orElseThrow(() -> new DiscountNotFoundException("Discount of id: " + id + " does not exist"));
 
+        System.out.println("id: " + id + " name: " + name);
+
         if (discountPercent != null && discountPercent.compareTo(new BigDecimal("0.00")) > 0 && !Objects.equals(discountPercent, discount.getDiscountPercent())) {
             discount.setDiscountPercent(discountPercent);
         }
@@ -48,6 +51,9 @@ public class DiscountService {
         if (name != null && name.length() > 0 && !Objects.equals(discount.getName(), name)) {
             discount.setName(name);
         }
+
+        // set modified_date
+        discount.setModified_at(new Timestamp(System.currentTimeMillis()));
     }
 
     public void deleteDiscount(Long id) {

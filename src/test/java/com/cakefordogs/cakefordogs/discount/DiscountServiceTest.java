@@ -12,6 +12,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 
@@ -87,15 +88,14 @@ class DiscountServiceTest {
     @Test
     void itShouldDeleteDiscountById() {
         // given
-        Discount discount = new Discount(1L, "new discount", "new customer", new BigDecimal("0.3"));
-        when(discountRepository.findById(1L)).thenReturn(Optional.of(discount));
+        Discount discount = new Discount("new discount", "new customer", new BigDecimal("0.3"));
+        when(discountRepository.findById(discount.getId())).thenReturn(Optional.of(discount));
 
         // when
         discountService.deleteDiscount(discount.getId());
 
         // then
         verify(discountRepository).deleteById(discount.getId());
-
     }
 
     @Test
@@ -152,5 +152,27 @@ class DiscountServiceTest {
         assertThat(discount.getDescription()).isEqualTo("new customer");
         assertThat(discount.getDiscountPercent()).isEqualTo(new BigDecimal("0.3"));
     }
+
+    @Test
+    void itShouldUpdateDiscountAndUpdateModifedTime() {
+        // given
+        Discount discount = Discount.builder()
+                .name("new discount")
+                .description("new customer")
+                .discountPercent(new BigDecimal("0.3"))
+                .build();
+
+        Timestamp beforeUpdateModifiedTime = discount.getModified_at();
+
+        given(discountRepository.findById(discount.getId())).willReturn(Optional.of(discount));
+
+        // when
+        discountService.updateDiscount(discount.getId(), "", "", new BigDecimal("0.00"));
+
+        // then
+        assertThat(discount.getModified_at()).isNotEqualTo(beforeUpdateModifiedTime);
+
+    }
+
 
 }
