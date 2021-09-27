@@ -7,6 +7,11 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 
+/**
+ * @author Aisen Kim
+ *
+ * Entity class for Discount
+ */
 @Getter
 @Setter
 @NoArgsConstructor

@@ -3,7 +3,6 @@ package com.cakefordogs.cakefordogs.discount;
 import com.cakefordogs.cakefordogs.discount.dto.SaveDiscountDto;
 import com.cakefordogs.cakefordogs.discount.exception.DiscountNotFoundException;
 import com.cakefordogs.cakefordogs.product.exception.BadRequestException;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,7 +12,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -154,7 +152,7 @@ class DiscountServiceTest {
     }
 
     @Test
-    void itShouldUpdateDiscountAndUpdateModifedTime() {
+    void itShouldUpdateDiscountAndUpdateModifiedTime() {
         // given
         Discount discount = Discount.builder()
                 .name("new discount")

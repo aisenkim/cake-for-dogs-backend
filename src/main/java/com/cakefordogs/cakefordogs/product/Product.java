@@ -25,6 +25,8 @@ public class Product {
     @Column(nullable = false)
     private BigDecimal price;
 
+    // TODO - Create relationship with discount
+
     // TODO - Add timestamps
 //   @CreatedDate
 //   @Column(name = "createdAt", nullable = false, updatable = false)

@@ -38,8 +38,6 @@ public class DiscountService {
         Discount discount = discountRepository.findById(id)
                 .orElseThrow(() -> new DiscountNotFoundException("Discount of id: " + id + " does not exist"));
 
-        System.out.println("id: " + id + " name: " + name);
-
         if (discountPercent != null && discountPercent.compareTo(new BigDecimal("0.00")) > 0 && !Objects.equals(discountPercent, discount.getDiscountPercent())) {
             discount.setDiscountPercent(discountPercent);
         }
