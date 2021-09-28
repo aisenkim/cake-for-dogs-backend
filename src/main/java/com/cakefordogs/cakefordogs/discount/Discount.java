@@ -1,11 +1,13 @@
 package com.cakefordogs.cakefordogs.discount;
 
+import com.cakefordogs.cakefordogs.product.Product;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.Set;
 
 /**
  * @author Aisen Kim
@@ -41,6 +43,9 @@ public class Discount {
     @CreationTimestamp
     private Timestamp modified_at;
 
+    // One to many relationship with product
+    @OneToMany(mappedBy = "discount", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<Product> products;
 
     // TODO - Add timestamps
 

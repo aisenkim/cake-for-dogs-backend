@@ -72,6 +72,37 @@ class UserControllerTest {
 
     @Test
     @WithMockUser(authorities = "ROLE_ADMIN")
+    void itShouldAddRoleToUser() throws Exception {
+        // given
+//        Role role = new Role(1L, "ROLE_ADMIN");
+        Role role = Role.builder().name("ROLE_ADMIN").build();
+
+        User newUser = User.builder()
+                .username("user2")
+                .password("password")
+                .name("User1")
+                .email("user1@gmail.com")
+                .build();
+
+        RoleToUserDto roleToUserDto = new RoleToUserDto(newUser.getUsername(), role.getName());
+
+        roleRepository.save(role);
+        userRepository.save(newUser);
+
+        String url = "http://localhost:" + port + "/api/v1/role/add-role";
+
+        // when
+        mvc.perform(post(url)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(new ObjectMapper().writeValueAsString(roleToUserDto)))
+                .andExpect(status().isOk());
+
+        User foundUser = userRepository.findByUsername(newUser.getUsername());
+        assertThat(foundUser.getRoles()).contains(role);
+    }
+
+    @Test
+    @WithMockUser(authorities = "ROLE_ADMIN")
     void itShouldGetUsersAndStatusOfOK() throws Exception {
         // given
         User newUser = User.builder()
@@ -160,33 +191,4 @@ class UserControllerTest {
 
     }
 
-    @Test
-    @WithMockUser(authorities = "ROLE_ADMIN")
-    void itShouldAddRoleToUser() throws Exception {
-        // given
-        Role role = new Role(1L, "ROLE_ADMIN");
-
-        User newUser = User.builder()
-                .username("user1")
-                .password("password")
-                .name("User1")
-                .email("user1@gmail.com")
-                .build();
-
-        RoleToUserDto roleToUserDto = new RoleToUserDto(newUser.getUsername(), role.getName());
-
-        roleRepository.save(role);
-        userRepository.save(newUser);
-
-        String url = "http://localhost:" + port + "/api/v1/role/add-role";
-
-        // when
-        mvc.perform(post(url)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(new ObjectMapper().writeValueAsString(roleToUserDto)))
-                .andExpect(status().isOk());
-
-        User foundUser = userRepository.findByUsername(newUser.getUsername());
-        assertThat(foundUser.getRoles()).contains(role);
-    }
 }

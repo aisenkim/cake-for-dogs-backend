@@ -85,7 +85,7 @@ class ProductServiceTest {
     @Test
     void itWillDeleteProductById() {
         // given
-        Product newProduct = new Product(1L , "Broccoli Cake", "New release of vegan cake", new BigDecimal("35.67"));
+        Product newProduct = new Product(1L , "Broccoli Cake", "New release of vegan cake", new BigDecimal("35.67"), null);
         when(productRepository.findById(1L)).thenReturn(Optional.of(newProduct));
 
         // when
@@ -99,7 +99,7 @@ class ProductServiceTest {
     @Test
     void shouldThrowErrorWhenProductDoesNotExist() {
         // given
-        Product newProduct = new Product(1L , "Broccoli Cake", "New release of vegan cake", new BigDecimal("35.67"));
+        Product newProduct = new Product(1L , "Broccoli Cake", "New release of vegan cake", new BigDecimal("35.67"), null);
         given(productRepository.findById(newProduct.getId())).willReturn(Optional.empty());
 
         // when
@@ -114,7 +114,7 @@ class ProductServiceTest {
     @Test
     void shouldUpdateProduct() {
         // given
-        Product newProduct = new Product(1L , "Broccoli Cake", "New release of vegan cake", new BigDecimal("35.67"));
+        Product newProduct = new Product(1L , "Broccoli Cake", "New release of vegan cake", new BigDecimal("35.67"), null);
         given(productRepository.findById(newProduct.getId())).willReturn(Optional.of(newProduct));
 
         // when
@@ -128,7 +128,7 @@ class ProductServiceTest {
     @Test
     void shouldNotUpdateProductIfLengthOfUpdateParametersAreZero() {
         // given
-        Product newProduct = new Product(1L , "Broccoli Cake", "New release of vegan cake", new BigDecimal("35.67"));
+        Product newProduct = new Product(1L , "Broccoli Cake", "New release of vegan cake", new BigDecimal("35.67"), null);
         given(productRepository.findById(newProduct.getId())).willReturn(Optional.of(newProduct));
 
         // when

@@ -25,7 +25,7 @@ class ProductRepositoryTest {
     @Test
     void itShouldFindProductByName() {
         // given
-        Product newProduct = new Product("Broccoli Cake", "New release of vegan cake", new BigDecimal("35.67"));
+        Product newProduct = new Product("Broccoli Cake", "New release of vegan cake", new BigDecimal("35.67"), null);
         productRepository.save(newProduct);
 
         // when
@@ -38,7 +38,7 @@ class ProductRepositoryTest {
     @Test
     void itShouldReturnEmptyWhenProductIsNotPresent() {
         // given
-        Product newProduct = new Product("Broccoli Cake", "New release of vegan cake", new BigDecimal("35.67"));
+        Product newProduct = new Product("Broccoli Cake", "New release of vegan cake", new BigDecimal("35.67"), null);
 
         // when
         Optional<Product> foundProduct = productRepository.findProductByName(newProduct.getName());

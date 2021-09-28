@@ -1,5 +1,6 @@
 package com.cakefordogs.cakefordogs.product;
 
+import com.cakefordogs.cakefordogs.discount.Discount;
 import lombok.*;
 
 import javax.persistence.*;
@@ -25,7 +26,11 @@ public class Product {
     @Column(nullable = false)
     private BigDecimal price;
 
-    // TODO - Create relationship with discount
+    // TODO - Create [Many To One] relationship -> Many product , One discount
+    @ManyToOne(fetch = FetchType.LAZY, optional = true)
+    @JoinColumn(name = "discount_id")
+    private Discount discount;
+
 
     // TODO - Add timestamps
 //   @CreatedDate
@@ -37,10 +42,11 @@ public class Product {
 //   private LocalDateTime modifiedAt;
 
     @Builder
-    public Product(String name, String description, BigDecimal price) {
+    public Product(String name, String description, BigDecimal price, Discount discount) {
         this.name = name;
         this.description = description;
         this.price = price;
+        this.discount = discount;
     }
 
 }
