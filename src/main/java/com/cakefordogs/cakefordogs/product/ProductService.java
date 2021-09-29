@@ -1,5 +1,9 @@
 package com.cakefordogs.cakefordogs.product;
 
+import com.cakefordogs.cakefordogs.discount.Discount;
+import com.cakefordogs.cakefordogs.discount.DiscountRepository;
+import com.cakefordogs.cakefordogs.discount.exception.DiscountNotFoundException;
+import com.cakefordogs.cakefordogs.product.dto.AddDiscountProductDto;
 import com.cakefordogs.cakefordogs.product.dto.ProductSaveRequestDto;
 import com.cakefordogs.cakefordogs.product.exception.BadRequestException;
 import com.cakefordogs.cakefordogs.product.exception.ProductNotFoundException;
@@ -17,6 +21,8 @@ import java.util.Optional;
 public class ProductService {
 
     private final ProductRepository productRepository;
+
+    private final DiscountRepository discountRepository;
 
     public List<Product> getProducts() {
         return productRepository.findAll();
@@ -43,7 +49,7 @@ public class ProductService {
     }
 
     @Transactional
-    public void updateProduct(Long id, String name, String description, BigDecimal price) {
+    public void updateProduct(Long id, String name, String description, BigDecimal price, Long discountId) {
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new ProductNotFoundException("Product does not exist"));
 
@@ -58,5 +64,15 @@ public class ProductService {
         if (price != null && price.compareTo(new BigDecimal("0.00")) > 0 && !Objects.equals(product.getPrice(), price)) {
             product.setPrice(price);
         }
+
+        if (discountId != null) {
+            // find discount
+            Optional<Discount> discountOptional = discountRepository.findById(discountId);
+            if(discountOptional.isEmpty())
+                throw new DiscountNotFoundException("Check discount name and id");
+            product.setDiscount(discountOptional.get());
+            System.out.println("discountOptional = " + discountOptional.get());
+        }
     }
+
 }

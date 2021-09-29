@@ -27,7 +27,7 @@ public class Product {
     private BigDecimal price;
 
     // TODO - Create [Many To One] relationship -> Many product , One discount
-    @ManyToOne(fetch = FetchType.LAZY, optional = true)
+    @ManyToOne(fetch = FetchType.EAGER, optional = true)
     @JoinColumn(name = "discount_id")
     private Discount discount;
 

@@ -1,5 +1,7 @@
 package com.cakefordogs.cakefordogs.product;
 
+import com.cakefordogs.cakefordogs.discount.Discount;
+import com.cakefordogs.cakefordogs.discount.DiscountRepository;
 import com.cakefordogs.cakefordogs.product.dto.ProductSaveRequestDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hamcrest.Matchers;
@@ -37,6 +39,9 @@ class ProductControllerTest {
 
     @Autowired
     private ProductRepository productRepository;
+
+    @Autowired
+    private DiscountRepository discountRepository;
 
     @Autowired
     private WebApplicationContext context;
@@ -107,6 +112,44 @@ class ProductControllerTest {
         List<Product> all = productRepository.findAll();
         assertThat(all.get(0).getName()).isEqualTo("Updated Name");
         assertThat(all.get(0).getDescription()).isEqualTo("Updated Description");
+
+    }
+
+    @Test
+    public void itShouldAddDiscountToProduct() throws Exception {
+        // given
+        String name = "Pork Cake";
+        String description = "New port cake is on sale";
+        ProductSaveRequestDto requestDto = ProductSaveRequestDto.builder()
+                .name(name)
+                .description(description)
+                .price(new BigDecimal("15.00"))
+                .build();
+
+        Product savedProduct = productRepository.save(requestDto.toEntity());
+
+        Discount discount = Discount.builder()
+                .name("Opening Sale")
+                .description("Opening Sale Discount for Pork Cake")
+                .discountPercent(new BigDecimal("0.3"))
+                .build();
+        Discount savedDiscount = discountRepository.save(discount);
+
+        String url = "http://localhost:" + port + "/api/v1/products/" + savedProduct.getId() + "?name=Updated Name&description=Updated Description&price=99.99&discountId=" + savedDiscount.getId();
+
+        // when
+        mvc.perform(put(url)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+
+        // then
+        List<Discount> discounts = discountRepository.findAll();
+        assertThat(discounts.get(0).getName()).isEqualTo("Opening Sale");
+
+
+
+        List<Product> products = productRepository.findAll();
+        assertThat(products.get(0).getDiscount().getName()).isEqualTo(discount.getName());
 
     }
 

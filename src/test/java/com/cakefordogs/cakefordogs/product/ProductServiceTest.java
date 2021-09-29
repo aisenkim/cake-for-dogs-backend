@@ -1,5 +1,6 @@
 package com.cakefordogs.cakefordogs.product;
 
+import com.cakefordogs.cakefordogs.discount.DiscountRepository;
 import com.cakefordogs.cakefordogs.product.dto.ProductSaveRequestDto;
 import com.cakefordogs.cakefordogs.product.exception.BadRequestException;
 import com.cakefordogs.cakefordogs.product.exception.ProductNotFoundException;
@@ -25,10 +26,11 @@ class ProductServiceTest {
     @Mock
     private ProductRepository productRepository;
     private ProductService productService;
+    private DiscountRepository discountRepository;
 
     @BeforeEach
     void setUp() {
-        productService = new ProductService(productRepository);
+        productService = new ProductService(productRepository, discountRepository);
     }
 
     @Test
@@ -118,7 +120,7 @@ class ProductServiceTest {
         given(productRepository.findById(newProduct.getId())).willReturn(Optional.of(newProduct));
 
         // when
-        productService.updateProduct(1L, "New Name", "New Description", new BigDecimal("11.11"));
+        productService.updateProduct(1L, "New Name", "New Description", new BigDecimal("11.11"), null);
 
         // then
         assertThat(newProduct.getName()).isNotEqualTo("Broccoli Cake");
@@ -132,7 +134,7 @@ class ProductServiceTest {
         given(productRepository.findById(newProduct.getId())).willReturn(Optional.of(newProduct));
 
         // when
-        productService.updateProduct(1L, "", "", new BigDecimal("-1.00"));
+        productService.updateProduct(1L, "", "", new BigDecimal("-1.00"), null);
 
         // then
         assertThat(newProduct.getName()).isEqualTo("Broccoli Cake");

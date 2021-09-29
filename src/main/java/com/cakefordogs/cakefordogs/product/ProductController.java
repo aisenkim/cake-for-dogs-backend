@@ -1,5 +1,6 @@
 package com.cakefordogs.cakefordogs.product;
 
+import com.cakefordogs.cakefordogs.product.dto.AddDiscountProductDto;
 import com.cakefordogs.cakefordogs.product.dto.ProductSaveRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -34,9 +35,10 @@ public class ProductController {
             @PathVariable("productId") Long id,
             @RequestParam(required = false) String name,
             @RequestParam(required = false) String description,
-            @RequestParam(required = false)BigDecimal price
+            @RequestParam(required = false)BigDecimal price,
+            @RequestParam(required = false)Long discountId
             ) {
-      productService.updateProduct(id, name, description, price);
+      productService.updateProduct(id, name, description, price, discountId);
     }
 
 }
